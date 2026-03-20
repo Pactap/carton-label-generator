@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carton Label Generator</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsbarcode/3.11.5/JsBarcode.all.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Carton Label Generator</h1>
+        
+        <div class="form-section">
+            <h2>Label Information</h2>
+            <form id="labelForm">
+                <div class="form-group">
+                    <label for="freeText">Free Text (Field A)</label>
+                    <input type="text" id="freeText" name="freeText" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="size">Size (Field B)</label>
+                    <input type="text" id="size" name="size" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cartonQuantity">Carton Quantity (Field C)</label>
+                    <input type="text" id="cartonQuantity" name="cartonQuantity" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="netWeight">Net Weight (Field E)</label>
+                    <input type="text" id="netWeight" name="netWeight" placeholder="e.g., 16.9 (kgs will be added automatically)" required>
+                    <small style="color: #666; font-size: 12px;">Enter weight value only (e.g., 16.9). "kgs" will be automatically added to the label.</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="grossWeight">Gross Weight (Field F)</label>
+                    <input type="text" id="grossWeight" name="grossWeight" placeholder="e.g., 17.9 (kgs will be added automatically)" required>
+                    <small style="color: #666; font-size: 12px;">Enter weight value only (e.g., 17.9). "kgs" will be automatically added to the label.</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="itemDescription">Item Description (Field G)</label>
+                    <input type="text" id="itemDescription" name="itemDescription" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="countryOfOrigin">Country of Origin (Field H)</label>
+                    <input type="text" id="countryOfOrigin" name="countryOfOrigin" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="barcodePrefix">Barcode Prefix</label>
+                    <input type="text" id="barcodePrefix" name="barcodePrefix" placeholder="e.g., 25MX2433669" maxlength="20">
+                    <small style="color: #666; font-size: 12px;">Prefix for barcode (e.g., 25MX2433669). Sequence will be appended: 25MX24336690000011, 25MX24336690000012...</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="numberOfCartons">Number of Cartons</label>
+                    <input type="number" id="numberOfCartons" name="numberOfCartons" min="1" value="1" required>
+                    <div id="timeEstimate" class="time-estimate"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="startSequence">Starting Sequence Number</label>
+                    <input type="number" id="startSequence" name="startSequence" min="1" value="11">
+                    <small style="color: #666; font-size: 12px;">Starting sequence number (7 digits zero-padded). Example: 11 becomes 0000011, result: 25MX24336690000011</small>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" id="exportPdfBtn">Export PDF</button>
+                    <button type="button" id="resetBtn">Reset Form</button>
+                    <span id="timerDisplay" class="timer-display"></span>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script src="barcode.js?v=2.0"></script>
+    <script src="label.js?v=2.5"></script>
+    <script src="app.js"></script>
+    <footer style="text-align:center;padding:16px;color:#999;font-size:12px;">Carton Label Generator v1.1.1</footer>
+</body>
+</html>

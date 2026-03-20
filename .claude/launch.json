@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "warehouse-label-system",
+      "runtimeExecutable": "cmd",
+      "runtimeArgs": ["/c", "C:\\Projects\\warehouse-label-system\\serve.bat"],
+      "port": 3000,
+      "autoPort": true
+    }
+  ]
+}

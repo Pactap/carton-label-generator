@@ -1,0 +1,40 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__Claude_Preview__preview_start",
+      "Bash(where node)",
+      "Bash(where python3)",
+      "Bash(where py)",
+      "Read(//c/Users/MY_PAC_TP_LE/AppData/Local/Programs//**)",
+      "Bash(cmd.exe /c \"where node\")",
+      "Bash(cmd.exe /c \"where python\")",
+      "Bash(cmd.exe /c \"where py\")",
+      "Bash(ls /c/Projects/warehouse-label-system/*.json)",
+      "Read(//c/Users/MY_PAC_TP_LE/.claude//**)",
+      "Read(//c/Users/MY_PAC_TP_LE/AppData/Roaming//**)",
+      "Read(//c/Users/MY_PAC_TP_LE/.nvm/**)",
+      "Read(//c/Users/MY_PAC_TP_LE/**)",
+      "Bash(env)",
+      "Bash(pkill -f serve.ps1)",
+      "Bash(\"C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe\" -NoProfile -ExecutionPolicy Bypass -Command \"Write-Output ''test''; exit 0\")",
+      "Bash(taskkill //F //IM powershell.exe)",
+      "Bash(git -C C:Projectswarehouse-label-system remote -v)",
+      "Bash(gh api:*)",
+      "WebFetch(domain:umendra-singh.github.io)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(git config:*)",
+      "Bash(git filter-branch -f --env-filter ':*)",
+      "Bash(while read:*)",
+      "Bash(do git:*)",
+      "Bash(done)",
+      "Bash(git reflog:*)",
+      "Bash(git gc:*)",
+      "Bash(gh release:*)",
+      "Bash(git tag:*)",
+      "Bash(echo \"exit: $?\")",
+      "Bash(git checkout:*)"
+    ]
+  }
+}

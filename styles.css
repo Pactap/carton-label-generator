@@ -1,0 +1,325 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f5f5f5;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+h1 {
+    width: 100%;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.form-section {
+    flex: 1;
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+h2 {
+    margin-bottom: 20px;
+    color: #333;
+    border-bottom: 2px solid #333;
+    padding-bottom: 10px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #333;
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 30px;
+    align-items: center;
+}
+
+.timer-display {
+    font-size: 13px;
+    color: #666;
+    font-style: italic;
+    min-width: 140px;
+}
+
+
+.time-estimate {
+    font-size: 12px;
+    color: #888;
+    margin-top: 6px;
+}
+
+button {
+    padding: 12px 24px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+button:active {
+    background-color: #222;
+}
+
+
+/* Label Container - Exact 6×4 inch dimensions */
+/* PDF: 152.4mm × 101.6mm = 576px × 384px at 96 DPI */
+/* PDF border: rect(2, 2, 148.4, 97.6) - 2mm margin from page edges, 0.5mm line width */
+.label-container {
+    width: 576px; /* 152.4mm = 6 inches at 96 DPI */
+    height: 384px; /* 101.6mm = 4 inches at 96 DPI */
+    background: white;
+    position: relative;
+    padding: 0;
+    display: block; /* Changed from flex to block for absolute positioning */
+    box-sizing: border-box;
+    page-break-after: always;
+    overflow: hidden;
+}
+
+/* Border matching PDF: 2mm (7.56px) from edges, 0.5mm (1.89px) line width */
+.label-container::before {
+    content: '';
+    position: absolute;
+    top: 7.56px; /* 2mm from top */
+    left: 7.56px; /* 2mm from left */
+    width: 560.88px; /* 148.4mm = 560.88px (152.4mm - 4mm) */
+    height: 368.88px; /* 97.6mm = 368.88px (101.6mm - 4mm) */
+    border: 1.89px solid #000; /* 0.5mm = 1.89px line width */
+    box-sizing: border-box;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Label content wrapper - Using absolute positioning to match PDF exactly */
+/* Content area: 148.4mm × 97.6mm = 560.88px × 368.88px at 96 DPI */
+/* Position: 2mm (7.56px) from container edges, matching PDF border position */
+.label-content {
+    position: absolute;
+    top: 7.56px; /* 2mm = 7.56px from container top (matches PDF border Y position) */
+    left: 7.56px; /* 2mm = 7.56px from container left (matches PDF border X position) */
+    width: 560.88px; /* 148.4mm = 560.88px at 96 DPI (content area width) */
+    height: 368.88px; /* 97.6mm = 368.88px at 96 DPI (content area height) */
+    box-sizing: border-box;
+    z-index: 0;
+}
+
+/* Center-aligned fields container */
+/* PDF calculation: yPosition starts at 10mm from page top, after 2 lines (8mm each) = 26mm, then +8mm spacing = 34mm */
+/* In content area (which starts at 2mm): 34mm - 2mm = 32mm = 120.94px */
+.label-center-fields {
+    position: absolute;
+    top: 120.94px; /* 32mm = 120.94px (34mm - 2mm from content area start) */
+    left: 0;
+    width: 560.88px; /* Full content width */
+    text-align: center;
+    box-sizing: border-box;
+}
+
+/* Text fields container - Two column layout using absolute positioning */
+/* PDF: yPosition = 10mm from page top (0,0), content area starts at 2mm, so 10mm - 2mm = 8mm = 30.24px */
+.label-text-fields {
+    position: absolute;
+    top: 30.24px; /* 8mm = 30.24px (10mm - 2mm from content area start) */
+    left: 0;
+    width: 560.88px; /* Full content width */
+    height: auto;
+    display: block;
+    box-sizing: border-box;
+}
+
+/* Left column - First 2 fields */
+/* PDF: leftColumnX = 10mm from page left (0,0), content area starts at 2mm, so 10mm - 2mm = 8mm = 30.24px */
+.label-left-column {
+    position: absolute;
+    left: 30.24px; /* 8mm = 30.24px (10mm - 2mm from content area start) */
+    top: 0;
+    display: block;
+}
+
+/* Right column - Next 2 fields */
+/* PDF: rightColumnX = 152.4 - 10 = 142.4mm from page left, content area starts at 2mm */
+/* So: 142.4mm - 2mm = 140.4mm from content left, or right: 10mm - 2mm = 8mm = 30.24px */
+.label-right-column {
+    position: absolute;
+    right: 30.24px; /* 8mm = 30.24px from right (10mm - 2mm from content area start) */
+    top: 0;
+    display: block;
+    text-align: right;
+}
+
+/* Free Text Field A - Uniform 16pt font - Left aligned */
+.label-free-text {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 16pt;
+    font-weight: bold;
+    color: #000;
+    text-align: left;
+    margin: 0;
+    margin-bottom: 30.24px; /* 8mm = 30.24px (matches PDF lineSpacing = 8mm) */
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+/* SIZE Field B - Uniform 16pt font - Left aligned */
+.label-size {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 16pt;
+    font-weight: bold;
+    color: #000;
+    text-align: left;
+    margin: 0;
+    margin-bottom: 0;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+/* CARTON QUANTITY Field C - Uniform 16pt font */
+.label-carton-quantity {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 16pt;
+    font-weight: bold;
+    color: #000;
+    text-align: center;
+    margin: 0;
+    margin-bottom: 30.24px; /* 8mm = 30.24px (matches PDF lineSpacing = 8mm) */
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+/* Barcode Container - Positioned to match PDF exactly */
+/* PDF: After 3 center fields, barcode Y is calculated dynamically, but typically around 58mm from page top */
+/* In content area: 58mm - 2mm = 56mm = 211.65px (approximate, actual position is calculated dynamically) */
+.barcode-container {
+    position: absolute;
+    top: 211.65px; /* ~56mm = 211.65px (58mm - 2mm from content area start, approximate) */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 377.95px; /* 100mm at 96 DPI (87mm symbol + 13mm quiet zones) */
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    box-sizing: border-box;
+}
+
+/* Barcode SVG - 87mm × 32mm symbol area for high readability and international compliance */
+.barcode-svg {
+    width: 377.95px; /* 100mm at 96 DPI (87mm symbol + 13mm quiet zones) */
+    height: 120.94px; /* 32mm at 96 DPI (barcode symbol height for high readability) */
+    margin: 0;
+    flex-shrink: 0;
+}
+
+/* Barcode HRI - 20pt, Bold, Center aligned */
+.barcode-hri {
+    font-family: Calibri, Arial, Helvetica, sans-serif;
+    font-size: 20pt; /* Updated to 20pt */
+    font-weight: bold;
+    color: #000;
+    text-align: center;
+    margin-top: 6px; /* Gap from barcode */
+    margin-bottom: 0;
+    line-height: 1.3;
+    flex-shrink: 0;
+    height: auto;
+    width: 100%;
+}
+
+/* NET WEIGHT Field E - Uniform 16pt font - Right aligned */
+.label-net-weight {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 16pt;
+    font-weight: bold;
+    color: #000;
+    text-align: right;
+    margin: 0;
+    margin-bottom: 30.24px; /* 8mm = 30.24px (matches PDF lineSpacing = 8mm) */
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+/* GROSS WEIGHT Field F - Uniform 16pt font - Right aligned */
+.label-gross-weight {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 16pt;
+    font-weight: bold;
+    color: #000;
+    text-align: right;
+    margin: 0;
+    margin-bottom: 0;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+/* ITEM DESCRIPTION Field G - Uniform 16pt font - Center aligned */
+.label-item-description {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 16pt;
+    font-weight: bold;
+    color: #000;
+    text-align: center;
+    margin: 0;
+    margin-bottom: 30.24px; /* 8mm = 30.24px (matches PDF lineSpacing = 8mm) */
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+/* COUNTRY OF ORIGIN Field H - Uniform 16pt font - Center aligned */
+.label-country-of-origin {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 16pt;
+    font-weight: bold;
+    color: #000;
+    text-align: center;
+    margin: 0;
+    margin-bottom: 0;
+    line-height: 1.2;
+    white-space: nowrap;
+}
